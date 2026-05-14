@@ -104,7 +104,6 @@ export default function App() {
   const addReel = async ({ url, title, note, category, cost }) => {
     const id = uid("r");
     const newReel = { id, url, title, note, category, added_by: user || "Anon", placed_day: null, cost: cost || 0 };
-    setReels(prev => [...prev, newReel]);
     const newOrder = [...(settings.reelOrder || []), id];
     setSettings(s => ({ ...s, reelOrder: newOrder }));
     await supabase.from('reels').insert(newReel);
@@ -163,7 +162,6 @@ export default function App() {
       addedBy: user || "Anon", fromReel: reelId,
       cost: reel.cost || 0,
     };
-    setEvents(prev => [...prev, newEv]);
     setReels(prev => prev.map(r => r.id === reelId ? { ...r, placed_day: dayIso } : r));
     await supabase.from('events').insert({
       id, title: newEv.title, note: newEv.note,
